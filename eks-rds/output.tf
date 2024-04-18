@@ -1,5 +1,5 @@
-output "availibility_zones" {
-  value = data.aws_availability_zones.availibility_zones.names
+output "availability_zones" {
+  value = data.aws_availability_zones.availability_zones.names
 }
 
 output "cluster_endpoint" {
