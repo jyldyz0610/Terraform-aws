@@ -11,15 +11,23 @@ module "ec2_instance" {
   subnet_id               = module.vpc.public_subnets[0]
   vpc_security_group_ids = [module.tf_instance_sg.security_group_id]
   associate_public_ip_address = true
+  key_name = aws_key_pair.my_key_pair.key_name
+  
 
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo yum update -y
-              sudo yum install docker -y
-              sudo service docker start
-              sudo docker run -d -p 80:9898 stefanprodan/podinfo &
-              EOF
+  # user_data = <<-EOF
+  #             #!/bin/bash
+  #             sudo yum update -y
+  #             sudo yum install docker -y
+  #             sudo service docker start
+  #             sudo docker run -d -p 80:9898 stefanprodan/podinfo &
+  #             EOF
 }
+
+resource "aws_key_pair" "my_key_pair" {
+  key_name   = "my_key_pair"
+  public_key = file("~/.ssh/id_rsa.pub")
+}
+
 
 
 module "tf_instance_sg" {
